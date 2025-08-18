@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ShoppingCart, Package, CreditCard, BarChart3, Zap, Bot, CheckCircle } from "lucide-react";
 
@@ -51,12 +50,6 @@ export default function IntroStatement() {
             but powers a <span className="font-semibold text-gray-900">fully working e-commerce store</span>.  
             From discovery to checkout, everything happens in conversation.
           </p>
-
-          <a href="/chat" className="inline-flex items-center gap-2">
-          <Button  className="border px-6 py-3 rounded-lg transition">
-            Start Shopping
-          </Button>
-          </a>
         </div>
 
         {/* Features */}
