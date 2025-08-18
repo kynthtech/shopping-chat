@@ -52,7 +52,7 @@ export default function ChatMessageList({
                   }}
                 />
               ))}
-
+              .filter((ui: any) => ui.metadata?.message_id === m.id)}
           </div>
         ))}
     </div>
