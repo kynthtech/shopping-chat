@@ -21,14 +21,17 @@ export default function ChatMessageList({
   return (
     <div className="flex-1 overflow-y-auto space-y-4 p-4">
       {messages
-        .filter(
-          (m) =>
+        .filter((m) => {
+          const hasUI = values?.ui?.some((ui: any) => ui.metadata?.message_id === m.id);
+          if (m.type === "ai" && hasUI) {
+            return false; // Exclude AI messages that have an associated UI component
+          }
+          return (
             (m.type === "human" || m.type === "ai") &&
             m.content &&
-            (typeof m.content === "string"
-              ? m.content.trim() !== ""
-              : JSON.stringify(m.content).trim() !== "")
-        )
+            (typeof m.content === "string" ? m.content.trim() !== "" : JSON.stringify(m.content).trim() !== "")
+          );
+        })
         .map((m, i) => (
           console.log("UI for message", m.id,
             values?.ui?.filter((ui: any) => ui.metadata?.message_id === m.id)),
@@ -55,3 +58,4 @@ export default function ChatMessageList({
     </div>
   );
 }
+
