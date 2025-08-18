@@ -42,7 +42,7 @@ def get_weather(location: str) -> str:
         message=message ,
         merge=True,
     )
-    return f"Weather in {location}: {weather_data['temperature']}, {weather_data['condition']},  '_ui'=True"
+    return ""
 
 
 @tool
