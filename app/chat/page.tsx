@@ -35,12 +35,12 @@ export default function ShoppingAgentPage() {
     assistantId: "agent",
     apiUrl: "http://127.0.0.1:2024",
     messagesKey: "messages",
-    // onCustomEvent: (event, options) => {
-    //   options.mutate((prev) => {
-    //     const ui = uiMessageReducer(prev.ui ?? [], event);
-    //     return { ...prev, ui };
-    //   });
-    // },
+    onCustomEvent: (event, options) => {
+      options.mutate((prev) => {
+        const ui = uiMessageReducer(prev.ui ?? [], event);
+        return { ...prev, ui };
+      });
+    },
   });
   const { messages, values, submit, isLoading, stop } = stream;
 
