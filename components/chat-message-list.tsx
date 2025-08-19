@@ -38,7 +38,7 @@ export default function ChatMessageList({
             <ChatMessage message={m} />
 
             {/* Attached UI components for this message */}
-            {values?.ui
+            {/* {values?.ui
               .map((ui: any) => (
                 <LoadExternalComponent
                   key={ui.id}
@@ -48,7 +48,7 @@ export default function ChatMessageList({
                     weather: WeatherComponent,
                   }}
                 />
-              ))}
+              ))} */}
 
           </div>
         ))}
