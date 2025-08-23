@@ -1,0 +1,6 @@
+langgraph
+langchain
+langgraph-cli
+langgraph-api
+python-dotenv
+langchain-openai
