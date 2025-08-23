@@ -1,9 +1,13 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FC } from "react";
 import { Cloud, Thermometer, Droplets, Wind } from "lucide-react";
+import { motion } from "motion/react";
+import { MagicCard } from "@/components/magicui/magic-card";
+import { ShimmerButton } from "@/components/magicui/shimmer-button";
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, Package } from "lucide-react";
 import { Tag } from "lucide-react";
@@ -47,42 +51,71 @@ export const WeatherComponent: FC<WeatherProps> = ({
   });
 
   return (
-    <Card className="w-full max-w-sm shadow-lg  border-0 rounded-2xl">
-      <CardHeader className="pb-1">
-        <CardTitle className="text-lg font-semibold flex items-center gap-2">
-          Weather in {city?.toLocaleUpperCase() ?? "Unknown"}
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="grid grid-cols-2 gap-4 text-sm text-gray-700">
-        {condition && (
-          <div className="flex items-center gap-2">
-            <Cloud className="h-4 w-4" />
-            <span className="font-medium">Condition:</span> {condition}
-          </div>
-        )}
-        {temperature && (
-          <div className="flex items-center gap-2">
-            <Thermometer className="h-4 w-4" />
-            <span className="font-medium">Temp:</span>{" "}
-            <span className="text-base font-semibold text-gray-900">
-              {temperature}
-            </span>
-          </div>
-        )}
-        {humidity && (
-          <div className="flex items-center gap-2">
-            <Droplets className="h-4 w-4 " />
-            <span className="font-medium">Humidity:</span> {humidity}
-          </div>
-        )}
-        {wind && (
-          <div className="flex items-center gap-2">
-            <Wind className="h-4 w-4 " />
-            <span className="font-medium">Wind:</span> {wind}
-          </div>
-        )}
-      </CardContent>
-    </Card>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+    >
+      <Card className="w-full max-w-sm bg-white/90 backdrop-blur-sm border border-slate-200/50 rounded-xl shadow-sm">
+        <CardHeader className="pb-3">
+          <CardTitle className="text-lg font-semibold flex items-center gap-2 text-slate-800">
+            <div className="h-6 w-6 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+              <Cloud className="h-3 w-3 text-white" />
+            </div>
+            Weather in {city?.toLocaleUpperCase() ?? "Unknown"}
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="grid grid-cols-2 gap-4 text-sm text-slate-600">
+          {condition && (
+            <motion.div 
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.4, delay: 0.1 }}
+              className="flex items-center gap-2"
+            >
+              <Cloud className="h-4 w-4 text-blue-500" />
+              <span className="font-medium">Condition:</span> {condition}
+            </motion.div>
+          )}
+          {temperature && (
+            <motion.div 
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.4, delay: 0.2 }}
+              className="flex items-center gap-2"
+            >
+              <Thermometer className="h-4 w-4 text-red-500" />
+              <span className="font-medium">Temp:</span>{" "}
+              <span className="text-base font-semibold text-slate-800">
+                {temperature}
+              </span>
+            </motion.div>
+          )}
+          {humidity && (
+            <motion.div 
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.4, delay: 0.3 }}
+              className="flex items-center gap-2"
+            >
+              <Droplets className="h-4 w-4 text-blue-400" />
+              <span className="font-medium">Humidity:</span> {humidity}
+            </motion.div>
+          )}
+          {wind && (
+            <motion.div 
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.4, delay: 0.4 }}
+              className="flex items-center gap-2"
+            >
+              <Wind className="h-4 w-4 text-gray-500" />
+              <span className="font-medium">Wind:</span> {wind}
+            </motion.div>
+          )}
+        </CardContent>
+      </Card>
+    </motion.div>
   );
 };
 
@@ -98,7 +131,7 @@ export const ProductCarousel: FC<ProductCarouselProps> = ({ products }) => {
 
   const handleNext = () => {
     setStartIndex((prev) =>
-      Math.min(prev + itemsPerView, products?.length - itemsPerView)
+      Math.min(prev + itemsPerView, (products?.length || 0) - itemsPerView)
     );
   };
 
@@ -108,81 +141,92 @@ export const ProductCarousel: FC<ProductCarouselProps> = ({ products }) => {
   );
 
   return (
-    <div className="relative w-full">
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      className="relative w-full"
+    >
       {/* Header with arrows */}
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold flex items-center gap-2">
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-xl font-semibold flex items-center gap-2 text-slate-800">
+          <div className="h-6 w-6 rounded-lg bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center">
+            <ShoppingBag className="h-3 w-3 text-white" />
+          </div>
           Products
         </h2>
         <div className="flex gap-2">
-          <Button size="icon" onClick={handlePrev} disabled={startIndex === 0}>
-            <ChevronLeft className="h-5 w-5" />
+          <Button 
+            size="icon" 
+            onClick={handlePrev} 
+            disabled={startIndex === 0}
+            variant="outline"
+            className="border-slate-200 hover:bg-slate-50"
+          >
+            <ChevronLeft className="h-4 w-4" />
           </Button>
           <Button
             size="icon"
             onClick={handleNext}
-            disabled={startIndex + itemsPerView >= products?.length}
+            disabled={startIndex + itemsPerView >= (products?.length || 0)}
+            variant="outline"
+            className="border-slate-200 hover:bg-slate-50"
           >
-            <ChevronRight className="h-5 w-5" />
+            <ChevronRight className="h-4 w-4" />
           </Button>
         </div>
       </div>
 
       {/* Product Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        {visibleProducts?.map((product) => (
-          <Card
+        {visibleProducts?.map((product, index) => (
+          <motion.div
             key={product.product_id}
-            className="relative w-[161px] h-[256px] group hover:translate-y-[-2px] transition-all duration-200 shadow-lg border-0 rounded-xl overflow-hidden"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: index * 0.1 }}
           >
-            {/* Optimized image with Next.js */}
-            <Image
-              src={`/${product.image_url}`}
-              alt={product.name}
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 50vw, 161px"
-            />
+            <div
+              key={product.product_id}
+              className="group relative overflow-hidden rounded-lg border border-neutral-200 transition-all duration-300 hover:shadow-md dark:border-neutral-800"
+            >
+              <div className="aspect-[4/5] overflow-hidden bg-gray-100">
+                <Image
+                  src={`/${product.image_url}`}
+                  alt={product.name}
+                  width={400}
+                  height={500}
+                  className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
 
-            {/* Overlay gradient and text */}
-            <div className="absolute bottom-0 left-0 right-0 flex flex-col gap-1 p-3 text-white bg-gradient-to-t from-black/70 to-transparent">
-              <p className="text-sm font-semibold truncate">{product.name}</p>
-              <div className="flex items-center gap-2 text-xs">
-                <p className="flex items-center gap-1">
-                  <Tag className="w-3 h-3 text-yellow-400" />${product.price}
-                </p>
-                <p className="flex items-center gap-1">
-                  <Package className="w-3 h-3 text-blue-400" />
-                  {product.stock}
-                </p>
+              <div className="p-4">
+                <h3 className="font-medium text-lg">{product.name}</h3>
+                <p className="text-gray-500 mt-1 text-sm">Available in stock: {product.stock}</p>
+                <p className="mt-2 text-black font-semibold">₹{product.price.toFixed(2)}</p>
+                  <Button className="w-full mt-3 bg-black text-white hover:bg-gray-800" onClick={() => {
+                    const newMessage = {
+                      type: "human",
+                      content: `Add ${product.name} to cart`,
+                    };
+                    submit({ messages: [newMessage] });
+                  }}>Add to Cart</Button>
               </div>
             </div>
-
-            <Button
-              variant="outline"
-              onClick={(e) => {
-                e.stopPropagation(); // prevent card click (details)
-                const newMessage = {
-                  type: "human",
-                  content: `Add ${product.name} to cart`,
-                };
-                submit({ messages: [newMessage] });
-              }}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 
-             px-4 py-2 rounded-lg text-white font-medium 
-             opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-            >
-              Add to Cart
-            </Button>
-          </Card>
+          </motion.div>
         ))}
       </div>
-      <div className="sm:col-span-3 mt-3">
-        <p className="text-center text-sm text-gray-600">
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6, delay: 0.4 }}
+        className="sm:col-span-3 mt-4"
+      >
+        <p className="text-center text-sm text-slate-500">
           Click a product card to see more details.
         </p>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 
@@ -204,59 +248,80 @@ export const CartComponent: FC<CartProps> = ({ items, total }) => {
   const { submit } = useStreamContext();
 
   return (
-    <div className="w-full max-w-sm bg-white rounded-xl border border-gray-100 p-6 shadow-sm">
-      {/* Header */}
-      <div className="border-b border-gray-100 pb-4 mb-6">
-        <div className="flex items-center gap-2">
-          <ShoppingCart className="w-5 h-5 text-gray-600" />
-          <h2 className="text-lg font-medium text-gray-900">Order summary</h2>
-        </div>
-      </div>
-
-      {/* Items */}
-      <div className="space-y-3 mb-6">
-        {items.map((item, index) => (
-          <div key={index} className="flex justify-between items-center">
-            <div className="flex-1">
-              <div className="flex items-center gap-2">
-                <h3 className="text-sm font-medium text-gray-900">
-                  {item.name}
-                </h3>
-                <span className="text-xs text-gray-400">×{item.quantity}</span>
-              </div>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      className="w-full max-w-sm"
+    >
+      <Card className="bg-white/90 backdrop-blur-sm rounded-xl border border-slate-200/50 p-6 shadow-sm">
+        {/* Header */}
+        <div className="border-b border-slate-200 pb-4 mb-6">
+          <div className="flex items-center gap-2">
+            <div className="h-6 w-6 rounded-lg bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center">
+              <ShoppingCart className="w-3 h-3 text-white" />
             </div>
-            <p className="text-sm font-medium text-gray-900">
-              ${item.subtotal.toFixed(2)}
+            <h2 className="text-lg font-medium text-slate-800">Order summary</h2>
+          </div>
+        </div>
+
+        {/* Items */}
+        <div className="space-y-3 mb-6">
+          {items.map((item, index) => (
+            <motion.div 
+              key={index} 
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
+              className="flex justify-between items-center"
+            >
+              <div className="flex-1">
+                <div className="flex items-center gap-2">
+                  <h3 className="text-sm font-medium text-slate-800">
+                    {item.name}
+                  </h3>
+                  <span className="text-xs text-slate-400">×{item.quantity}</span>
+                </div>
+              </div>
+              <p className="text-sm font-medium text-slate-800">
+                ${item.subtotal.toFixed(2)}
+              </p>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Divider */}
+        <div className="border-t border-slate-200 pt-4">
+          <div className="flex justify-between items-center">
+            <p className="text-base font-medium text-slate-800">Total</p>
+            <p className="text-lg font-semibold text-slate-800">
+              ${total.toFixed(2)}
             </p>
           </div>
-        ))}
-      </div>
-
-      {/* Divider */}
-      <div className="border-t border-gray-100 pt-4">
-        <div className="flex justify-between items-center">
-          <p className="text-base font-medium text-gray-900">Total</p>
-          <p className="text-lg font-semibold text-gray-900">
-            ${total.toFixed(2)}
-          </p>
         </div>
-      </div>
 
-      {/* Checkout Button */}
-      <Button
-        onClick={(e) => {
-          e.stopPropagation(); // prevent card click (details)
-          const newMessage = {
-            type: "human",
-            content: `Continue to checkout my cart!`,
-          };
-          submit({ messages: [newMessage] });
-        }}
-        variant="outline"
-        className="w-full mt-6  text-black py-3 px-4 rounded-md text-sm font-medium  transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
-      >
-        Continue to checkout
-      </Button>
-    </div>
+        {/* Checkout Button */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="mt-6"
+        >
+          <ShimmerButton
+            onClick={(e) => {
+              e.stopPropagation();
+              const newMessage = {
+                type: "human",
+                content: `Continue to checkout my cart!`,
+              };
+              submit({ messages: [newMessage] });
+            }}
+            className="w-full"
+          >
+            Continue to checkout
+          </ShimmerButton>
+        </motion.div>
+      </Card>
+    </motion.div>
   );
 };
